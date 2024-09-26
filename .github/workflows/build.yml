@@ -27,7 +27,16 @@ jobs:
 
 
 
-
+      - name: Upload file to Catbox
+        id: upload_catbox
+        run: |
+          UPLOAD_OUTPUT=$(pyupload .gitignore --host=catbox)
+          echo "Upload Output: $UPLOAD_OUTPUT"
+          
+          LINK=$(echo "$UPLOAD_OUTPUT" | grep -oP '(https://files\.catbox\.moe/\S+)')
+          echo "Uploaded file link: $LINK"
+          
+          echo "::set-output name=catbox_link::$LINK"
 
 
 
@@ -59,7 +68,7 @@ jobs:
                 "components":[
                   {
                     "type":2,
-                    "url":"https://google.com",
+                    "url":"${{ steps.upload_catbox.outputs.catbox_link }}",
                     "label":"Download",
                     "style":5
                   }
