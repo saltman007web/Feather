@@ -35,10 +35,10 @@ jobs:
           UPLOAD_OUTPUT=$(pyupload .gitignore --host=catbox)
           echo "Upload Output: $UPLOAD_OUTPUT"
           
-          LINK=$(echo "$UPLOAD_OUTPUT" | grep -oP '(https://files\.catbox\.moe/\S+)')
+          LINK=$(echo "$UPLOAD_OUTPUT" | sed -n 's/.*Your link : //p')
           echo "Uploaded file link: $LINK"
           
-          echo "::set-output name=catbox_link::$LINK"
+          echo "catbox_link=$LINK" >> $GITHUB_ENV
 
 
 
@@ -70,7 +70,7 @@ jobs:
                 "components":[
                   {
                     "type":2,
-                    "url":"${{ steps.upload_catbox.outputs.catbox_link }}",
+                    "url":"${{ env.catbox_link }}",
                     "label":"Download",
                     "style":5
                   }
