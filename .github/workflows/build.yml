@@ -23,7 +23,9 @@ jobs:
           mkdir upload
 
 
-
+      - name: Install pyupload
+        run: |
+          pip install pyupload
 
 
 
